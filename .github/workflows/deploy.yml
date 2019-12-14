@@ -80,4 +80,4 @@ jobs:
       run: |
         o365 login --authType password --userName ${{ secrets.adminUsername }} --password ${{ secrets.adminPassword }}
         o365 spo app add -p ${{ steps.getartifactpath.outputs.artifactpath }} --overwrite
-        o365 spo app deploy --name ${{ basename steps.getartifactpath.outputs.artifactpath }}
+        o365 spo app deploy --name $(basename steps.getartifactpath.outputs.artifactpath)
