@@ -4,7 +4,7 @@ on: push
 
 # Set the name of the sppkg file
 env:
-  sppkgName: ${{ 'spfx-cicd.sppkg' }}
+  sppkgFileName: ${{ 'spfx-cicd.sppkg' }}
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
     
     # Compose the package path and save it in a variable
     - name: Get package path
-      run: echo ::set-output name=packagepath::sharepoint/solution/$sppkgName
+      run: echo ::set-output name=packagepath::sharepoint/solution/$sppkgFileName
       id: getpackagepath
     
     # Upload artifacts (sppkg file)
@@ -67,7 +67,7 @@ jobs:
     
     # Compose the artifact path and store it in a variable
     - name: Get artifact path
-      run: echo ::set-output name=artifactpath::output/$sppkgName
+      run: echo ::set-output name=artifactpath::output/$sppkgFileName
       id: getartifactpath
     
     # Deploy package to tenant using action-cli-deploy
