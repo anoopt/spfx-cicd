@@ -1,7 +1,6 @@
 resources:
 - repo: self
 trigger:
-- master
 - develop
 pool:
   vmImage: 'vs2017-win2016'
