@@ -2,6 +2,10 @@ name: SPFx CICD with O365 CLI
 
 on: push
 
+# Set the name of the sppkg file
+env:
+  sppkgName: ${{ 'spfx-cicd.sppkg' }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,12 +34,17 @@ jobs:
         gulp bundle --ship
         gulp package-solution --ship    
     
+    # Compose the package path and save it in a variable
+    - name: Get package path
+      run: echo ::set-output name=packagepath::sharepoint/solution/$sppkgName
+      id: getpackagepath
+    
     # Upload artifacts (sppkg file)
     - name: Upload artifact (sppkg file)
       uses: actions/upload-artifact@v1.0.0
       with:
         name: output
-        path: sharepoint/solution/${{ secrets.sppkgFileName }}
+        path: ${{ steps.getpackagepath.outputs.packagepath }}
         
   deploy:
     needs: build
@@ -56,11 +65,16 @@ jobs:
         ADMIN_USERNAME:  ${{ secrets.adminUsername }}
         ADMIN_PASSWORD:  ${{ secrets.adminPassword }}
     
+    # Compose the artifact path and store it in a variable
+    - name: Get artifact path
+      run: echo ::set-output name=artifactpath::output/$sppkgName
+      id: getartifactpath
+    
     # Deploy package to tenant using action-cli-deploy
     - name: Office 365 CLI Deploy
       uses: anoopt/action-cli-deploy@master
       env:
-        APP_FILE_PATH: output/${{ secrets.sppkgFileName }}
+        APP_FILE_PATH: ${{ steps.getartifactpath.outputs.artifactpath }}
     
     # Send an email using action-cli-runscript
     - name: Office 365 CLI Send email
