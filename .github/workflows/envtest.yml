@@ -11,3 +11,4 @@ jobs:
     steps:
       - name: Say Hello
         run: echo Hello
+        if: env.SEND_MAIL == true
