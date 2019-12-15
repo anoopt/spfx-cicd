@@ -4,7 +4,7 @@ on: [push]
 
 # Set the name of the sppkg file
 env:
-  sppkgFileName: ${{ 'spfx-cicd.sppkg' }}
+  SPPKG_FILE_NAME: 'spfx-cicd.sppkg'
 
 jobs:
   build:
@@ -33,18 +33,13 @@ jobs:
       run: |
         gulp bundle --ship
         gulp package-solution --ship    
-    
-    # Compose the package path and save it in a variable
-    - name: Get package path
-      run: echo ::set-output name=packagepath::sharepoint/solution/$sppkgFileName
-      id: getpackagepath
-    
+       
     # Upload artifacts (sppkg file)
     - name: Upload artifact (sppkg file)
       uses: actions/upload-artifact@v1.0.0
       with:
         name: output
-        path: ${{ steps.getpackagepath.outputs.packagepath }}
+        path: sharepoint/solution/${{ env.SPPKG_FILE_NAME }}
         
   deploy:
     needs: build
@@ -69,15 +64,10 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: output
-    
-    # Compose the artifact path and store it in a variable
-    - name: Get artifact path
-      run: echo ::set-output name=artifactpath::output/$sppkgFileName
-      id: getartifactpath
-    
+        
     # Using o365 cli login to tenant, add app and deploy
     - name: Login to tenant, add app and deploy
       run: |
         o365 login --authType password --userName ${{ secrets.adminUsername }} --password ${{ secrets.adminPassword }}
-        o365 spo app add -p ${{ steps.getartifactpath.outputs.artifactpath }} --overwrite
-        o365 spo app deploy --name $(basename ${{ steps.getartifactpath.outputs.artifactpath }})
+        o365 spo app add -p output/${{ env.SPPKG_FILE_NAME }} --overwrite
+        o365 spo app deploy --name ${{ env.SPPKG_FILE_NAME }}
