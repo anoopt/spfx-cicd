@@ -1,6 +1,6 @@
 name: Testing CLI Actions
 
-on: [pull_request]
+on: [push]
 
 jobs:
   runscript-test:
@@ -12,13 +12,13 @@ jobs:
     steps:          
     # Login to tenant using action-cli-login
     - name: Office 365 CLI Login
-      uses: anoopt/action-cli-login@master
+      uses: anoopt/o365-cli-actions-test/login@master
       env:
         ADMIN_USERNAME:  ${{ secrets.adminUsername }}
         ADMIN_PASSWORD:  ${{ secrets.adminPassword }}
         
     # Send an email using action-cli-runscript
     - name: Office 365 CLI Send email
-      uses: anoopt/action-cli-runscript@master
+      uses: anoopt/o365-cli-actions-test/runscript@master
       env:
          O365_CLI_SCRIPT_PATH: /scripts/mail.ps1
