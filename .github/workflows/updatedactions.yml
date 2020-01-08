@@ -25,4 +25,5 @@ jobs:
     - name: Office 365 CLI Send email
       uses: anoopt/o365-cli-actions-test/runscript@master
       env:
-         O365_CLI_SCRIPT_PATH: /scripts/mail.ps1
+        APP_ID: 123
+        O365_CLI_SCRIPT_PATH: /scripts/mail.ps1
