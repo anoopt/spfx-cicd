@@ -26,4 +26,4 @@ jobs:
       uses: anoopt/o365-cli-actions-test/runscript@master
       env:
         APP_ID: 123
-        O365_CLI_SCRIPT_PATH: /scripts/mail.ps1
+        O365_CLI_SCRIPT_PATH: /scripts/mail.sh
