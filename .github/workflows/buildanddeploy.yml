@@ -48,6 +48,10 @@ jobs:
     
     steps:
     
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v1
+      
     # Download package (sppkg file)
     - name: Download pacakge (sppkg file)
       uses: actions/download-artifact@v1
@@ -110,6 +114,10 @@ jobs:
     
     steps:
     
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v1
+      
     # Download package (sppkg file)
     - name: Download pacakge (sppkg file)
       uses: actions/download-artifact@v1
@@ -158,13 +166,13 @@ jobs:
     - name: Office 365 CLI Runscript bash
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.sh'
+        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.sh'
         
     # Run script PS
     - name: Office 365 CLI Runscript PS
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: ',/scripts/appcatalog.ps1' 
+        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.ps1' 
 
   deploy-windows:
     needs: build
@@ -172,6 +180,10 @@ jobs:
     
     steps:
     
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v1
+      
     # Download package (sppkg file)
     - name: Download pacakge (sppkg file)
       uses: actions/download-artifact@v1
@@ -220,10 +232,10 @@ jobs:
     - name: Office 365 CLI Runscript bash
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.sh'
+        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.sh'
         
     # Run script PS
     - name: Office 365 CLI Runscript PS
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.ps1' 
+        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.ps1' 
