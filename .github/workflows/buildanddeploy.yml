@@ -1,6 +1,6 @@
 name: SPFx CICD with O365 CLI
 
-on: [push]
+on: [pull_request]
 
 # Set the name of the sppkg file
 env:
@@ -42,7 +42,7 @@ jobs:
         name: output
         path: sharepoint/solution/${{ env.SPPKG_FILE_NAME }}
 
-  deploy:
+  deploy-ubuntu:
     needs: build
     runs-on: ubuntu-latest
     
@@ -70,7 +70,7 @@ jobs:
         OVERWRITE: true
     
     # Send an email using action-cli-runscript
-    - name: Office 365 CLI Send email
+    - name: Office 365 CLI Send email bash
       uses: anoopt/action-cli-runscript@master
       with:
          O365_CLI_SCRIPT: | 
@@ -78,4 +78,116 @@ jobs:
           echo 'Sending email...'
           o365 spo mail send --webUrl https://anoopccdev1.sharepoint.com/sites/teamsite --to 'anoop@anoopccdev1.onmicrosoft.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is complete.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
           echo 'Email sent'
+      if: env.SEND_MAIL == 'true'
+
+      # Send an email using action-cli-runscript
+    - name: Office 365 CLI Send email PS
+      uses: anoopt/action-cli-runscript@master
+      with:
+         IS_POWERSHELL: true
+         O365_CLI_SCRIPT: | 
+          Write-Host 'AppId - ${{ steps.deploy.outputs.APP_ID }}'
+          Write-Host 'Sending email...'
+          o365 spo mail send --webUrl https://anoopccdev1.sharepoint.com/sites/teamsite --to 'anoop@anoopccdev1.onmicrosoft.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is complete.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
+          Write-Host 'Email sent'
+      if: env.SEND_MAIL == 'true'
+
+  deploy-macos:
+    needs: build
+    runs-on: macos-latest
+    
+    steps:
+    
+    # Download package (sppkg file)
+    - name: Download pacakge (sppkg file)
+      uses: actions/download-artifact@v1
+      with:
+        name: output
+    
+    # Login to tenant using action-cli-login
+    - name: Office 365 CLI Login
+      uses: anoopt/action-cli-login@master
+      with:
+        ADMIN_USERNAME:  ${{ secrets.adminUsername }}
+        ADMIN_PASSWORD:  ${{ secrets.adminPassword }}
+        
+    # Deploy package to tenant using action-cli-deploy
+    - name: Office 365 CLI Deploy
+      id: deploy
+      uses: anoopt/action-cli-deploy@master
+      with:
+        APP_FILE_PATH: output/${{ env.SPPKG_FILE_NAME }}
+        OVERWRITE: true
+    
+    # Send an email using action-cli-runscript
+    - name: Office 365 CLI Send email bash
+      uses: anoopt/action-cli-runscript@master
+      with:
+         O365_CLI_SCRIPT: | 
+          echo 'AppId - ${{ steps.deploy.outputs.APP_ID }}'
+          echo 'Sending email...'
+          o365 spo mail send --webUrl https://anoopccdev1.sharepoint.com/sites/teamsite --to 'anoop@anoopccdev1.onmicrosoft.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is complete.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
+          echo 'Email sent'
+      if: env.SEND_MAIL == 'true'
+
+      # Send an email using action-cli-runscript
+    - name: Office 365 CLI Send email PS
+      uses: anoopt/action-cli-runscript@master
+      with:
+         IS_POWERSHELL: true
+         O365_CLI_SCRIPT: | 
+          Write-Host 'AppId - ${{ steps.deploy.outputs.APP_ID }}'
+          Write-Host 'Sending email...'
+          o365 spo mail send --webUrl https://anoopccdev1.sharepoint.com/sites/teamsite --to 'anoop@anoopccdev1.onmicrosoft.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is complete.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
+          Write-Host 'Email sent'
+      if: env.SEND_MAIL == 'true'
+
+  deploy-windows:
+    needs: build
+    runs-on: windows-latest
+    
+    steps:
+    
+    # Download package (sppkg file)
+    - name: Download pacakge (sppkg file)
+      uses: actions/download-artifact@v1
+      with:
+        name: output
+    
+    # Login to tenant using action-cli-login
+    - name: Office 365 CLI Login
+      uses: anoopt/action-cli-login@master
+      with:
+        ADMIN_USERNAME:  ${{ secrets.adminUsername }}
+        ADMIN_PASSWORD:  ${{ secrets.adminPassword }}
+        
+    # Deploy package to tenant using action-cli-deploy
+    - name: Office 365 CLI Deploy
+      id: deploy
+      uses: anoopt/action-cli-deploy@master
+      with:
+        APP_FILE_PATH: output/${{ env.SPPKG_FILE_NAME }}
+        OVERWRITE: true
+    
+    # Send an email using action-cli-runscript
+    - name: Office 365 CLI Send email bash
+      uses: anoopt/action-cli-runscript@master
+      with:
+         O365_CLI_SCRIPT: | 
+          echo 'AppId - ${{ steps.deploy.outputs.APP_ID }}'
+          echo 'Sending email...'
+          o365 spo mail send --webUrl https://anoopccdev1.sharepoint.com/sites/teamsite --to 'anoop@anoopccdev1.onmicrosoft.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is complete.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
+          echo 'Email sent'
+      if: env.SEND_MAIL == 'true'
+
+      # Send an email using action-cli-runscript
+    - name: Office 365 CLI Send email PS
+      uses: anoopt/action-cli-runscript@master
+      with:
+         IS_POWERSHELL: true
+         O365_CLI_SCRIPT: | 
+          Write-Host 'AppId - ${{ steps.deploy.outputs.APP_ID }}'
+          Write-Host 'Sending email...'
+          o365 spo mail send --webUrl https://anoopccdev1.sharepoint.com/sites/teamsite --to 'anoop@anoopccdev1.onmicrosoft.com' --subject 'Deployment done' --body '<h2>Office 365 CLI</h2> <p>The deployment is complete.</p> <br/> Email sent via Office 365 CLI GitHub Action.'
+          Write-Host 'Email sent'
       if: env.SEND_MAIL == 'true'
