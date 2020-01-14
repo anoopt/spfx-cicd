@@ -96,16 +96,16 @@ jobs:
     - name: Office 365 CLI Runscript bash
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.sh'
+        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.sh'
         
     # Run script PS
     - name: Office 365 CLI Runscript PS
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.ps1' 
+        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.ps1' 
   
   deploy-macos:
-    needs: build
+    needs: [build, deploy-ubuntu]
     runs-on: macos-latest
     
     steps:
@@ -158,13 +158,13 @@ jobs:
     - name: Office 365 CLI Runscript bash
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.sh'
+        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.sh'
         
     # Run script PS
     - name: Office 365 CLI Runscript PS
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.ps1' 
+        O365_CLI_SCRIPT_PATH: ',/scripts/appcatalog.ps1' 
 
   deploy-windows:
     needs: build
@@ -220,10 +220,10 @@ jobs:
     - name: Office 365 CLI Runscript bash
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.sh'
+        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.sh'
         
     # Run script PS
     - name: Office 365 CLI Runscript PS
       uses: anoopt/action-cli-runscript@master
       with:
-        O365_CLI_SCRIPT_PATH: '/scripts/appcatalog.ps1' 
+        O365_CLI_SCRIPT_PATH: './scripts/appcatalog.ps1' 
