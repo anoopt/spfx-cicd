@@ -1,6 +1,6 @@
 name: SPFx CICD with O365 CLI
 
-on: [pull_request]
+on: [push]
 
 # Set the name of the sppkg file
 env:
