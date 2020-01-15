@@ -2,6 +2,7 @@ name: SPFx CICD with O365 CLI
 
 on: [push]
 
+
 # Set the name of the sppkg file
 env:
   SPPKG_FILE_NAME: 'spfx-cicd.sppkg'
